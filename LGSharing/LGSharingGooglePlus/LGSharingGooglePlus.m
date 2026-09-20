@@ -1,30 +1,9 @@
 //
-//  LGSharingGooglePlus.m
-//  LGSharing
+// LGSharingGooglePlus.m
+// LGSharing
 //
-//
-//  The MIT License (MIT)
-//
-//  Copyright (c) 2015 Grigory Lutkov <Friend.LGA@gmail.com>
-//  (https://github.com/Friend-LGA/LGSharing)
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2015 Grigorii Lutkov <grigorii@lutkov.dev>
 //
 
 #import "LGSharingGooglePlus.h"
@@ -54,17 +33,17 @@
 {
     static dispatch_once_t once;
     static id sharedManager;
-    
+
     dispatch_once(&once, ^(void)
                   {
                       sharedManager = [super new];
-                      
+
                       [(LGSharingGooglePlus *)sharedManager setClientId:clientId];
                       [(LGSharingGooglePlus *)sharedManager setDeepLinkId:deepLinkId];
-                      
+
                       [(LGSharingGooglePlus *)sharedManager initialize];
                   });
-    
+
     return sharedManager;
 }
 
@@ -74,7 +53,7 @@
     _signIn.delegate = self;
     _signIn.clientID = _clientId;
     _signIn.scopes = @[kGTLAuthScopePlusLogin]; // определяется в файле GTLPlusConstants.h
-    
+
     _share = [GPPShare sharedInstance];
     _share.delegate = self;
 }
@@ -98,33 +77,33 @@
     _text = text;
     _link = link;
     _completionHandler = completionHandler;
-    
+
     if ([self isAuthorized])
     {
         id<GPPShareBuilder> shareBuilder = [_share nativeShareDialog];
-        
+
         // Подставляются заголовок, описание, эскиз и ссылка,
         // связанные с передаваемым URL.
         [shareBuilder setURLToShare:link];
         [shareBuilder setPrefillText:text];
-        
+
         // This line passes the deepLinkID to our application
         // if somebody opens the link on a supported mobile device
         if (_deepLinkId.length)
             [shareBuilder setContentDeepLinkID:_deepLinkId];
-        
+
         // Вручную подставим заголовок, описание и эскиз
         // для передаваемого контента.
         // [shareBuilder setTitle:title
-        //            description:text
-        //           thumbnailURL:link];
-        
+        //           description:text
+        //          thumbnailURL:link];
+
         [shareBuilder open];
     }
     else
     {
         _needsPost = YES;
-        
+
         [self authorize];
     }
 }
@@ -146,7 +125,7 @@
     if (error)
     {
         NSLog(@"LGSharingGooglePlus: Received error %@ and auth object %@", error, auth);
-        
+
         if (_completionHandler) _completionHandler(error);
     }
     else if (_text)

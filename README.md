@@ -1,25 +1,25 @@
 # LGSharing
 
-iOS helper for easy sharing with email, message or social networks like facebook, twitter, google+ and vkontakte. 
+iOS helper for easy sharing with email, message or social networks like facebook, twitter, google+ and vkontakte.
 
 ## Installation
 
 ### With source code
 
-- [Download repository](https://github.com/Friend-LGA/LGSharing/archive/master.zip), then add [LGSharing directory](https://github.com/Friend-LGA/LGSharing/blob/master/LGSharing/) to your project.
+- [Download repository](https://github.com/LGLibs/LGSharing/archive/master.zip), then add [LGSharing directory](./LGSharing) to your project.
 - Also you need to install libraries:
-  - [Google+](https://developers.google.com/+/mobile/ios/)
+  - [Google+](https://developers.google.com/+/mobile/ios)
   - [VKontakte](https://github.com/VKCOM/vk-ios-sdk)
 
 ### With CocoaPods
 
-[CocoaPods](http://cocoapods.org/) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries in your projects. See the "Get Started" section for more details.
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries in your projects. See the "Get Started" section for more details.
 
 #### Podfile
 
 ```
 platform :ios, '6.0'
-pod 'LGSharing', :git => 'https://github.com/Friend-LGA/LGSharing.git'
+pod 'LGSharing', :git => 'https://github.com/LGLibs/LGSharing.git'
 ```
 
 ## Usage
@@ -58,8 +58,16 @@ In the source files where you need to use the library, import the header file:
 
 ### More
 
-For more details see [LGSharing.h](https://github.com/Friend-LGA/LGSharing/blob/master/LGSharing/LGSharing.h)
+For more details see [LGSharing.h](./LGSharing/LGSharing.h)
+
+## Repos / Mirrors
+
+- [TRULAB](https://trulab.ru/LGLibs/LGSharing)
+- [GitHub](https://github.com/LGLibs/LGSharing)
+- [GitLab](https://gitlab.com/LGLibs/LGSharing)
+- [Gitea](https://gitea.com/LGLibs/LGSharing)
 
 ## License
 
-LGSharing is released under the MIT license. See [LICENSE](https://raw.githubusercontent.com/Friend-LGA/LGSharing/master/LICENSE) for details.
+Copyright (c) 2015 Grigorii Lutkov \<grigorii@lutkov.dev\></br>
+Licensed under the [MIT License](./LICENSE)

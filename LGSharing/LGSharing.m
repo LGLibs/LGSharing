@@ -1,30 +1,9 @@
 //
-//  LGSharing.m
-//  LGSharing
+// LGSharing.m
+// LGSharing
 //
-//
-//  The MIT License (MIT)
-//
-//  Copyright (c) 2015 Grigory Lutkov <Friend.LGA@gmail.com>
-//  (https://github.com/Friend-LGA/LGSharing)
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2015 Grigorii Lutkov <grigorii@lutkov.dev>
 //
 
 #import "LGSharing.h"
@@ -70,20 +49,20 @@
 {
     static dispatch_once_t once;
     static id sharedManager;
-    
+
     dispatch_once(&once, ^(void)
                   {
                       sharedManager = [super new];
-                      
+
                       [(LGSharing *)sharedManager setNavigationController:navigationController];
                       [(LGSharing *)sharedManager setVkAppId:vkAppId];
                       [(LGSharing *)sharedManager setGooglePlusClientId:googlePlusClientId];
                       [(LGSharing *)sharedManager setGooglePlusDeepLinkId:googlePlusDeepLinkId];
-                      
+
                       [(LGSharing *)sharedManager setEmailAlertMessage:@"Укажите почтовый аккаунт в настройках вашего устройста."];
                       [(LGSharing *)sharedManager setSmsAlertMessage:@"Ваше устройство не предназначено для отправки сообщений."];
                   });
-    
+
     return sharedManager;
 }
 
@@ -117,7 +96,7 @@
     _presentCompletionHandler = presentCompletionHandler;
     _completionHandler = completionHandler;
     _dismissCompletionHandler = dismissCompletionHandler;
-    
+
     if (destinations & LGSharingDestinationVkontakte || destinations == LGSharingDestinationAll)
     {
         LGSharingObject *object = [LGSharingObject new];
@@ -125,7 +104,7 @@
         object.buttonTitle = @"ВКонтакте";
         [_sharingObjects addObject:object];
     }
-    
+
     if (destinations & LGSharingDestinationFacebook || destinations == LGSharingDestinationAll)
     {
         LGSharingObject *object = [LGSharingObject new];
@@ -133,7 +112,7 @@
         object.buttonTitle = @"Facebook";
         [_sharingObjects addObject:object];
     }
-    
+
     if (destinations & LGSharingDestinationTwitter || destinations == LGSharingDestinationAll)
     {
         LGSharingObject *object = [LGSharingObject new];
@@ -141,7 +120,7 @@
         object.buttonTitle = @"Twitter";
         [_sharingObjects addObject:object];
     }
-    
+
     if (destinations & LGSharingDestinationGooglePlus || destinations == LGSharingDestinationAll)
     {
         LGSharingObject *object = [LGSharingObject new];
@@ -149,7 +128,7 @@
         object.buttonTitle = @"Google+";
         [_sharingObjects addObject:object];
     }
-    
+
     if (destinations & LGSharingDestinationEmail || destinations == LGSharingDestinationAll)
     {
         LGSharingObject *object = [LGSharingObject new];
@@ -157,7 +136,7 @@
         object.buttonTitle = @"E-Mail";
         [_sharingObjects addObject:object];
     }
-    
+
     if (destinations & LGSharingDestinationSMS || destinations == LGSharingDestinationAll)
     {
         LGSharingObject *object = [LGSharingObject new];
@@ -165,22 +144,22 @@
         object.buttonTitle = NSLocalizedString(@"SMS", nil);
         [_sharingObjects addObject:object];
     }
-    
+
     // -----
-    
+
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:nil];
-    
+
     for (LGSharingObject *object in _sharingObjects)
     {
         if (setupHandler) setupHandler(object);
-        
+
         [actionSheet addButtonWithTitle:object.buttonTitle];
     }
-    
+
     [actionSheet showInView:_navigationController.view];
 }
 
@@ -191,11 +170,11 @@
     if (buttonIndex != actionSheet.cancelButtonIndex && buttonIndex != actionSheet.destructiveButtonIndex)
     {
         LGSharingObject *object = _sharingObjects[buttonIndex-1];
-        
+
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void)
                        {
                            __weak typeof(self) wself = self;
-                           
+
                            if (object.destination == LGSharingDestinationVkontakte)
                            {
                                [self shareToVkontakteText:object.text
@@ -210,7 +189,7 @@
                                     if (wself)
                                     {
                                         __strong typeof(wself) self = wself;
-                                        
+
                                         if (self.completionHandler) self.completionHandler(object);
                                     }
                                 }
@@ -233,7 +212,7 @@
                                     if (wself)
                                     {
                                         __strong typeof(wself) self = wself;
-                                        
+
                                         if (self.completionHandler) self.completionHandler(object);
                                     }
                                 }
@@ -256,7 +235,7 @@
                                     if (wself)
                                     {
                                         __strong typeof(wself) self = wself;
-                                        
+
                                         if (self.completionHandler) self.completionHandler(object);
                                     }
                                 }
@@ -274,7 +253,7 @@
                                     if (wself)
                                     {
                                         __strong typeof(wself) self = wself;
-                                        
+
                                         if (self.completionHandler) self.completionHandler(object);
                                     }
                                 }];
@@ -293,7 +272,7 @@
                                     if (wself)
                                     {
                                         __strong typeof(wself) self = wself;
-                                        
+
                                         if (self.completionHandler) self.completionHandler(object);
                                     }
                                 }
@@ -316,7 +295,7 @@
                                     if (wself)
                                     {
                                         __strong typeof(wself) self = wself;
-                                        
+
                                         if (self.completionHandler) self.completionHandler(object);
                                     }
                                 }
@@ -355,10 +334,10 @@
     if (_vkAppId.length)
     {
         link = [link stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
+
         LGSharingVkontakte *sharingVkontakteObject = [LGSharingVkontakte sharedManagerWithAppId:_vkAppId
                                                                            navigationController:_navigationController];
-        
+
         [sharingVkontakteObject postWithText:text
                                         link:[NSURL URLWithString:link]
                                     animated:animated
@@ -377,19 +356,19 @@
    dismissCompletionHandler:(void(^)())dismissCompletionHandler
 {
     SLComposeViewController *facebookVC = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-    
+
     [facebookVC setCompletionHandler:^(SLComposeViewControllerResult result)
      {
          if (completionHandler) completionHandler(result);
-         
+
          [_navigationController dismissViewControllerAnimated:animated completion:dismissCompletionHandler];
      }];
-    
+
     link = [link stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
+
     [facebookVC setInitialText:text];
     [facebookVC addURL:[NSURL URLWithString:link]];
-    
+
     [_navigationController presentViewController:facebookVC animated:animated completion:presentCompletionHandler];
 }
 
@@ -401,19 +380,19 @@
   dismissCompletionHandler:(void(^)())dismissCompletionHandler
 {
     SLComposeViewController *twitterVC = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-    
+
     [twitterVC setCompletionHandler:^(SLComposeViewControllerResult result)
      {
          if (completionHandler) completionHandler(result);
-         
+
          [_navigationController dismissViewControllerAnimated:animated completion:dismissCompletionHandler];
      }];
-    
+
     link = [link stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
+
     [twitterVC setInitialText:text];
     [twitterVC addURL:[NSURL URLWithString:link]];
-    
+
     [_navigationController presentViewController:twitterVC animated:animated completion:presentCompletionHandler];
 }
 
@@ -424,10 +403,10 @@
     if (_googlePlusClientId.length)
     {
         link = [link stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
+
         LGSharingGooglePlus *sharingGooglePlusObject = [LGSharingGooglePlus sharedManagerWithClientId:_googlePlusClientId
                                                                                            deepLinkId:_googlePlusDeepLinkId];
-        
+
         [sharingGooglePlusObject postWithText:text
                                          link:[NSURL URLWithString:link]
                             completionHandler:completionHandler];
@@ -447,17 +426,17 @@ dismissCompletionHandler:(void(^)())dismissCompletionHandler
         _emailCompletionHandler = completionHandler;
         _emailDismissCompletionHandler = dismissCompletionHandler;
         _emailAnimated = animated;
-        
+
         link = [link stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
+
         MFMailComposeViewController *mailViewController = [MFMailComposeViewController new];
         mailViewController.mailComposeDelegate = self;
         [mailViewController setSubject:text];
         [mailViewController setMessageBody:link isHTML:NO];
-        
+
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             mailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-        
+
         [_navigationController presentViewController:mailViewController animated:animated completion:presentCompletionHandler];
     }
     else [[[UIAlertView alloc] initWithTitle:_emailAlertTitle
@@ -479,14 +458,14 @@ dismissCompletionHandler:(void(^)())dismissCompletionHandler
         _smsCompletionHandler = completionHandler;
         _smsDismissCompletionHandler = dismissCompletionHandler;
         _smsAnimated = animated;
-        
+
         MFMessageComposeViewController *messageViewController = [[MFMessageComposeViewController alloc] init];
         messageViewController.messageComposeDelegate = self;
         [messageViewController setBody:[NSString stringWithFormat:@"%@\n\n%@", text, link]];
-        
+
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             messageViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-        
+
         [_navigationController presentViewController:messageViewController animated:animated completion:presentCompletionHandler];
     }
     else [[[UIAlertView alloc] initWithTitle:_smsAlertTitle
@@ -502,7 +481,7 @@ dismissCompletionHandler:(void(^)())dismissCompletionHandler
 {
     [LGSharingVkontakte applicationOpenURL:url sourceApplication:sourceApplication];
     [LGSharingGooglePlus applicationOpenURL:url sourceApplication:sourceApplication annotation:annotation];
-    
+
     return YES;
 }
 
@@ -511,14 +490,14 @@ dismissCompletionHandler:(void(^)())dismissCompletionHandler
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     if (_emailCompletionHandler) _emailCompletionHandler(result, error);
-    
+
     [_navigationController dismissViewControllerAnimated:_emailAnimated completion:_emailDismissCompletionHandler];
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
     if (_smsCompletionHandler) _smsCompletionHandler(result);
-    
+
     [_navigationController dismissViewControllerAnimated:_smsAnimated completion:_smsDismissCompletionHandler];
 }
 
