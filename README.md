@@ -69,5 +69,6 @@ For more details see [LGSharing.h](./LGSharing/LGSharing.h)
 
 ## License
 
-Copyright (c) 2015 Grigorii Lutkov \<grigorii@lutkov.dev\></br>
+Copyright (c) 2015 Grigorii Lutkov \<grigorii@lutkov.dev\>
+
 Licensed under the [MIT License](./LICENSE)
